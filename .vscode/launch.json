@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unify_native}",
+            "name": "Debug unify_native",
+            "program": "${workspaceFolder:unify_native}/.build/debug/unify_native",
+            "preLaunchTask": "swift: Build Debug unify_native"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unify_native}",
+            "name": "Release unify_native",
+            "program": "${workspaceFolder:unify_native}/.build/release/unify_native",
+            "preLaunchTask": "swift: Build Release unify_native"
+        }
+    ]
+}
