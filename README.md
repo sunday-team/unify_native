@@ -1,51 +1,135 @@
-Of course. Here is a summary of the "Unify Native Kit" project, designed for an AI or any developer who has no prior context.
+# Unify Native
 
-Project Summary: Unify Native Kit
+A modern, cross-platform UI framework for Swift that provides a SwiftUI-like declarative syntax while targeting native platform UI components.
 
-1. High-Level Vision
+## Overview
 
-Unify Native Kit is a new, cross-platform software framework. Its goal is to allow developers to write an application once, using the modern, declarative Swift language, and have it run with a fully native user interface on Windows, Linux, and Apple platforms.
+Unify Native is a UI framework that allows you to write declarative UI code once and render it using native components on each platform. The framework provides a familiar SwiftUI-like syntax while abstracting away platform-specific implementation details.
 
-2. Core Architecture
+## Current Status
 
-The project follows a "React-like" or "SwiftUI-like" architectural pattern, which separates the UI definition from its rendering:
+The project is in its early stages with the following components implemented:
 
-Declarative Swift API: Developers using the framework will write their UI using simple, declarative Swift structs (e.g., VStack, Text, Button) and manage state with property wrappers (@State), just like in SwiftUI.
-Platform-Agnostic Engine: A core engine, written entirely in Swift, takes the user's declarative UI code and generates a platform-independent "virtual UI tree." When state changes, this engine calculates the minimal set of differences ("the diff") between the old and new virtual trees.
-Platform-Specific Native Renderers: The list of diffs (e.g., "create button," "update text," "remove child") is sent to a native rendering backend specific to each operating system. This renderer is responsible for executing these commands to manipulate the actual native UI controls.
-3. Platform Implementation Strategy
+### Core Architecture
+- ✅ `App` protocol for application lifecycle management
+- ✅ `View` protocol for component hierarchy
+- ✅ Basic application lifecycle management
+- ✅ SwiftUI-like declarative syntax
+- ✅ MainActor isolation for thread safety
 
-A key decision is to use the best possible approach for each platform rather than forcing a single, compromised solution everywhere.
+### UI Components
+Currently implemented components:
+- ✅ `VStack`: Vertical stack layout
+- ✅ `Text`: Basic text display with font and padding support
+- ✅ `Button`: Basic button with click handler
 
-Apple Platforms (macOS, iOS): The framework will leverage native SwiftUI directly. The UnifyNativeKit API will be a thin wrapper that maps its components directly to SwiftUI components. This provides a "gold standard" user experience with minimal effort. The users will import the unify native library and the library will choose the backend.
-Windows: The goal is a modern, Fluent UI. To achieve this, the renderer will be a C++ module that uses C++/WinRT to programmatically create native WinUI 3 controls (a "no-XAML" approach). This avoids the outdated look of the older Win32 API while providing a truly native Windows 11 experience.
-Linux: The renderer will be a C++ module that interfaces directly with the C-based GTK4 API to create and manage native widgets.
-4. Key Enabling Technology
-
-The entire project's feasibility, especially on Windows and Linux, hinges on Swift's modern C++ Interoperability features (as of WWDC 2025). This allows the core Swift engine to directly call the C++ rendering backends without needing a complex, manually-written C-style bridge.
-
-5. Development & Build Environment
-
-The project is structured as a Swift Package Manager (SPM) project. This is the foundation for managing the code, its multiple targets (the core engine, the Windows renderer, the Linux renderer), and its dependencies in a cross-platform way. Developers can use Xcode on macOS for a rich editing and debugging experience, as Xcode can directly open and manage SPM projects without compromising their platform-agnostic nature.
-
-6. Current Status
-
-The project is in the initial setup and architectural phase. The project structure has been created, and the next immediate milestone is to build a "proof-of-concept" that can display a single native button on all target platforms, validating the core interoperability and rendering architecture.
-
----
-
-Example: Defining a ContentView in Unify Native Kit
+### Example Usage
 
 ```swift
+import UnifyNativeKit
+
+@main
+struct MyApp: App {
+    var body: ContentView {
+        ContentView()
+    }
+}
+
 struct ContentView: View {
-    var body: some View {
+    var body: VStack {
         VStack {
-            Text("Hello, Unify Native!")
-                .font(.title)
-                .padding()
+            Text("Hello, Unify Native!").padding(10).font(.title)
             Button("Click Me") {
-                // Handle button action
+                print("Button clicked")
             }
         }
     }
 }
+```
+
+## Project Goals
+
+1. **Native Performance**: Use platform-specific UI components for optimal performance and native feel
+2. **Cross-Platform**: Support multiple platforms while maintaining a single codebase
+   - Windows: WinUI 3 (Fluent Design)
+   - Linux: GTK4
+   - macOS: SwiftUI
+   - iOS: SwiftUI
+   - (Future) Web: WebAssembly
+
+3. **Modern Swift Features**:
+   - Leverage Swift's modern C++ interoperability
+   - Use Swift concurrency and actor model
+   - Type-safe, declarative UI
+
+## Roadmap
+
+### Short Term
+- [ ] Platform-specific window creation
+- [ ] Basic rendering pipeline
+- [ ] Layout engine
+- [ ] More UI components (HStack, ZStack, Image, etc.)
+- [ ] Component styling system
+
+### Medium Term
+- [ ] Platform-specific renderers
+- [ ] State management system
+- [ ] Animation system
+- [ ] Gesture recognition
+- [ ] Accessibility support
+
+### Long Term
+- [ ] Hot reload support
+- [ ] Developer tools
+- [ ] Component library
+- [ ] Theme system
+- [ ] Web platform support
+
+## Architecture
+
+The framework is structured in layers:
+
+1. **Core Layer** (`Sources/UnifyNativeKit/Core/`)
+   - `App.swift`: Application lifecycle
+   - `View.swift`: View protocol
+   - `ApplicationLifecycle.swift`: Runtime management
+
+2. **Component Layer** (`Sources/UnifyNativeKit/Components/`)
+   - `UnifyComponents.swift`: UI component implementations
+   - More components to come
+
+3. **Platform Layer** (Coming Soon)
+   - Platform-specific rendering implementations
+   - Native component bridges
+
+## Building
+
+```bash
+# Build the project
+swift build
+
+# Run the example app
+swift run
+```
+
+## Requirements
+
+- Swift 6.1 or later
+- Platform-specific requirements (coming soon)
+
+## Contributing
+
+The project is in early development. Contributions are welcome! Areas where help is needed:
+1. Additional UI components
+2. Platform-specific rendering implementations
+3. Documentation
+4. Testing infrastructure
+5. Example applications
+
+## License
+
+License.md
+
+## Credits
+
+Created by [Priam/Sunday_Team]
