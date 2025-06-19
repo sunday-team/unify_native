@@ -15,7 +15,9 @@ struct ContentView: View {
     
     var body: VStack {
         VStack {
-            Text("Hello, Unify Native!").padding(10).font(.title)
+            Text("Hello, Unify Native!")
+                .padding(10)
+                .font(.title)
             Button("Click Me") {
                 print("Button clicked")
             }

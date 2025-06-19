@@ -1,66 +1,63 @@
-public enum Unify {
-    public typealias UnifyFont = Font
-    
+@_exported import Foundation
+
+public enum UnifyComponents {
     @MainActor
-    public class VStack: View {
-        public typealias Body = VStack
-        public var body: Body { self }
+    public struct VStack: View {
+        private let content: [any View]
         
-        public var children: [any View]
+        public init(@ViewBuilder content: () -> any View) {
+            self.content = [content()]
+        }
         
-        public init(@UnifyViewBuilder content: () -> [any View]) {
-            self.children = content()
+        public var body: some View {
+            self
         }
     }
-
+    
     @MainActor
-    public class Text: View {
-        public typealias Body = Text
-        public var body: Body { self }
-        
-        public var text: String
-        public var paddingValue: Int = 0
-        public var fontValue: UnifyFont = .body
+    public struct Text: View {
+        private let text: String
+        private var padding: Int = 0
+        private var font: Font = .body
         
         public init(_ text: String) {
             self.text = text
         }
         
         public func padding(_ value: Int) -> Text {
-            self.paddingValue = value
-            return self
+            var copy = self
+            copy.padding = value
+            return copy
         }
         
-        public func font(_ font: UnifyFont) -> Text {
-            self.fontValue = font
-            return self
+        public func font(_ font: Font) -> Text {
+            var copy = self
+            copy.font = font
+            return copy
+        }
+        
+        public var body: some View {
+            self
         }
     }
-
+    
     @MainActor
-    public class Button: View {
-        public typealias Body = Button
-        public var body: Body { self }
+    public struct Button: View {
+        private let title: String
+        private let action: () -> Void
         
-        public var text: String
-        public var onClick: () -> Void
+        public init(_ title: String, action: @escaping () -> Void) {
+            self.title = title
+            self.action = action
+        }
         
-        public init(_ text: String, onClick: @escaping () -> Void) {
-            self.text = text
-            self.onClick = onClick
+        public var body: some View {
+            self
         }
     }
     
     public enum Font {
-        case body
         case title
-        case headline
-    }
-}
-
-@resultBuilder
-public struct UnifyViewBuilder {
-    public static func buildBlock(_ components: any View...) -> [any View] {
-        return components
+        case body
     }
 } 

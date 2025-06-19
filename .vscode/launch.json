@@ -17,6 +17,42 @@
             "name": "Release unify_native",
             "program": "${workspaceFolder:unify_native}/.build/release/unify_native",
             "preLaunchTask": "swift: Build Release unify_native"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unify_native}",
+            "name": "Debug UnifyNative",
+            "program": "${workspaceFolder:unify_native}/.build/debug/UnifyNative",
+            "preLaunchTask": "swift: Build Debug UnifyNative"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unify_native}",
+            "name": "Release UnifyNative",
+            "program": "${workspaceFolder:unify_native}/.build/release/UnifyNative",
+            "preLaunchTask": "swift: Build Release UnifyNative"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unify_native}",
+            "name": "Debug unify",
+            "program": "${workspaceFolder:unify_native}/.build/debug/unify",
+            "preLaunchTask": "swift: Build Debug unify"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:unify_native}",
+            "name": "Release unify",
+            "program": "${workspaceFolder:unify_native}/.build/release/unify",
+            "preLaunchTask": "swift: Build Release unify"
         }
     ]
 }

@@ -6,23 +6,29 @@ import PackageDescription
 let package = Package(
     name: "unify_native",
     products: [
-        .executable(
-            name: "UnifyNative",
-            targets: ["UnifyNative"]
-        ),
         .library(
             name: "UnifyNativeKit",
             targets: ["UnifyNativeKit"]
+        ),
+        .executable(
+            name: "unify",
+            targets: ["UnifyCLI"]
         )
     ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0")
+    ],
     targets: [
-        .executableTarget(
-            name: "UnifyNative",
-            dependencies: ["UnifyNativeKit"]
-        ),
         .target(
             name: "UnifyNativeKit",
             dependencies: []
+        ),
+        .executableTarget(
+            name: "UnifyCLI",
+            dependencies: [
+                "UnifyNativeKit",
+                .product(name: "ArgumentParser", package: "swift-argument-parser")
+            ]
         )
     ]
 )

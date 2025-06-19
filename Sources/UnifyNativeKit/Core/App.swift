@@ -1,5 +1,7 @@
+// Export Foundation types
 @_exported import Foundation
 
+/// The main protocol for defining an application in UnifyNative
 @MainActor
 public protocol App {
     associatedtype Body: View
