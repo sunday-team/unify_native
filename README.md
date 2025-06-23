@@ -51,11 +51,12 @@ struct ContentView: View {
 
 1. **Native Performance**: Use platform-specific UI components for optimal performance and native feel
 2. **Cross-Platform**: Support multiple platforms while maintaining a single codebase
-   - Windows: WinUI 3 (Fluent Design)
-   - Linux: GTK4
-   - macOS: SwiftUI
-   - iOS: SwiftUI
-   - (Future) Web: WebAssembly
+   - Windows: [SwiftCrossUI](https://github.com/stackotter/swift-cross-ui)
+   - Linux: [SwiftCrossUI](https://github.com/stackotter/swift-cross-ui)
+   - macOS: [SwiftUI](https://developer.apple.com/documentation/swiftui)
+   - iOS: [SwiftUI](https://developer.apple.com/documentation/swiftui)
+   - Android : [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html), using C and Swift Interop
+   - (Future) Web: WebAssembly in Swift
 
 3. **Modern Swift Features**:
    - Leverage Swift's modern C++ interoperability
