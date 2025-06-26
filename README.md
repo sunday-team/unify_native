@@ -55,7 +55,7 @@ struct ContentView: View {
    - Linux: [SwiftCrossUI](https://github.com/stackotter/swift-cross-ui)
    - macOS: [SwiftUI](https://developer.apple.com/documentation/swiftui)
    - iOS: [SwiftUI](https://developer.apple.com/documentation/swiftui)
-   - Android : Standalone Kotlin app without any prebuilt build tools, using C and Swift Interop
+   - Android : Standalone Kotlin with standalone build tools, using C and Swift Interop
    - (Future) Web: WebAssembly in Swift
 
 3. **Modern Swift Features**:
