@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/.cxx/Debug/16b2o2a5/arm64-v8a",
+  "command": "/home/priam/Android/Sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android26 --sysroot=/home/priam/Android/Sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnative_lib_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -o CMakeFiles/native_lib.dir/native_lib.c.o -c /mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/src/main/cpp/native_lib.c",
+  "file": "/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/src/main/cpp/native_lib.c"
+}
+]

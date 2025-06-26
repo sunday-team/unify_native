@@ -4,74 +4,81 @@ set -e
 # Start timing the build process
 start_time=$(date +%s)
 
-# Use Windows adb.exe from WSL
 ADB="/mnt/c/Users/ipado/Downloads/platform-tools-latest-windows/platform-tools/adb.exe"
-  
-# rm -rf __build
 
-kotlinc   -cp "$ANDROID_SDK_ROOT/platforms/android-33/android.jar" -d __build/obj   java/com/example/MainActivity.kt
+# Detect Android SDK location
+detect_android_sdk() {
+    # Check if ANDROID_SDK_ROOT is already set
+    if [ -n "$ANDROID_SDK_ROOT" ] && [ -d "$ANDROID_SDK_ROOT" ]; then
+        echo "Using ANDROID_SDK_ROOT from environment: $ANDROID_SDK_ROOT"
+        return 0
+    fi
+    
+    # Try common locations
+    local possible_locations=(
+        "$HOME/Android/Sdk"
+        "$HOME/Library/Android/sdk"
+        "/usr/local/lib/android/sdk"
+        "/mnt/c/Users/$USER/AppData/Local/Android/Sdk"
+        "/mnt/c/Android/Sdk"
+    )
+    
+    for loc in "${possible_locations[@]}"; do
+        if [ -d "$loc" ]; then
+            export ANDROID_SDK_ROOT="$loc"
+            echo "Found Android SDK at: $ANDROID_SDK_ROOT"
+            return 0
+        fi
+    done
+    
+    echo "Could not find Android SDK. Please set ANDROID_SDK_ROOT environment variable."
+    exit 1
+}
 
-NDK=$ANDROID_SDK_ROOT/ndk/25.2.9519653
-CLANG=$NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi23-clang
+# Detect Android SDK
+detect_android_sdk
 
-mkdir -p __build/apk/lib/armeabi-v7a
+echo "Using ADB at: $ADB"
 
-$CLANG -shared -fPIC \
-  -o __build/apk/lib/armeabi-v7a/libnative_lib.so \
-  jni/native_lib.c \
-  -llog
+# Create a temporary build directory in WSL native filesystem
+TEMP_BUILD_DIR="$HOME/android_project"
+echo "Creating temporary build directory at: $TEMP_BUILD_DIR"
+rm -rf "$TEMP_BUILD_DIR"
+mkdir -p "$TEMP_BUILD_DIR"
 
-d8 --min-api 26 --no-desugaring --output __build/apk/ $(find __build/obj -name '*.class')
+# Copy project files to WSL native filesystem
+echo "Copying project files to WSL native filesystem..."
+cp -r * "$TEMP_BUILD_DIR/"
 
-aapt package -f   -M AndroidManifest.xml   -S res   -I "$ANDROID_SDK_ROOT/platforms/android-33/android.jar"   -F __build/minapp.unsigned.apk   __build/apk/
+# Change to the temporary directory
+cd "$TEMP_BUILD_DIR"
 
-## Repacking app with dex files
+# Clean Gradle
+rm -rf .gradle
+rm -rf build
+./gradlew --stop
 
-# Unzip into a temp dir
-rm -rf __build/tmp_apk
-mkdir -p __build/tmp_apk
-unzip -q __build/minapp.unsigned.apk -d __build/tmp_apk
+# Build the project with Gradle
+./gradlew --no-daemon clean assembleDebug
 
-# Copy in all .dex files
-cp __build/apk/*.dex __build/tmp_apk/
+# Copy the APK back to the original location
+mkdir -p ../build/outputs/apk/debug/
+cp build/outputs/apk/debug/ExampleApp-debug.apk ../build/outputs/apk/debug/
 
-# Re-create the unsigned APK with code and assets
-cd __build/tmp_apk
-zip -q -r ../minapp.unsigned.apk ./*
-cd -
+echo "Build completed successfully! APK is at build/outputs/apk/debug/ExampleApp-debug.apk"
+echo "To install on a device, connect it and run:"
+echo "$ADB install -r build/outputs/apk/debug/ExampleApp-debug.apk"
 
-## End of repacking app with dex files
+# Uninstall previous version if exists
+echo "Uninstalling previous version if it exists..."
+$ADB uninstall com.example || true
 
-
-zipalign -f -p 4 \
-  __build/minapp.unsigned.apk \
-  __build/minapp.aligned.apk
-
-# rm ./keystore.jks
-
-# keytool -genkeypair -keystore keystore.jks -alias androidkey \
-#   -dname "CN=you, OU=you, O=you, L=Paris, S=France, C=FR" \
-#   -validity 10000 -keyalg RSA -keysize 2048 \
-#   -storepass android -keypass android
-
-zip -g __build/minapp.aligned.apk __build/apk/classes.dex \
-                          __build/apk/lib/armeabi-v7a/libnative_lib.so
-
-apksigner sign --ks keystore.jks \
-  --ks-key-alias androidkey \
-  --ks-pass pass:android \
-  --key-pass pass:android \
-  --out __build/minapp.apk \
-  __build/minapp.aligned.apk
-
-$ADB devices
-
-$ADB install -r __build/minapp.apk
+echo "Installing new version..."
+$ADB install -r build/outputs/apk/debug/ExampleApp-debug.apk
 
 # Calculate and display the total build time
 end_time=$(date +%s)
 build_duration=$((end_time - start_time))
 minutes=$((build_duration / 60))
 seconds=$((build_duration % 60))
-milliseconds=$((build_duration * 1000))
-echo "Build completed in ${minutes}m ${seconds}s ${milliseconds}ms"
+echo "Build completed in ${minutes}m ${seconds}s"

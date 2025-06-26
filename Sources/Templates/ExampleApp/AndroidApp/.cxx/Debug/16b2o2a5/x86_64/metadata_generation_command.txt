@@ -1,0 +1,19 @@
+                        -H/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/src/main/cpp
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=26
+-DANDROID_PLATFORM=android-26
+-DANDROID_ABI=x86_64
+-DCMAKE_ANDROID_ARCH_ABI=x86_64
+-DANDROID_NDK=/home/priam/Android/Sdk/ndk/25.2.9519653
+-DCMAKE_ANDROID_NDK=/home/priam/Android/Sdk/ndk/25.2.9519653
+-DCMAKE_TOOLCHAIN_FILE=/home/priam/Android/Sdk/ndk/25.2.9519653/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/home/priam/Android/Sdk/cmake/3.22.1/bin/ninja
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/build/intermediates/cxx/Debug/16b2o2a5/obj/x86_64
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/build/intermediates/cxx/Debug/16b2o2a5/obj/x86_64
+-DCMAKE_BUILD_TYPE=Debug
+-B/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/.cxx/Debug/16b2o2a5/x86_64
+-GNinja
+-DANDROID_STL=c++_shared
+                        Build command args: []
+                        Version: 2

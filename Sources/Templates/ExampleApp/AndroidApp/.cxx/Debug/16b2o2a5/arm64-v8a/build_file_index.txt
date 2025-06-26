@@ -1,0 +1,1 @@
+/mnt/c/Users/ipado/Coding/swift-projects/unify_native/Sources/Templates/ExampleApp/AndroidApp/src/main/cpp/CMakeLists.txt
