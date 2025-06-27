@@ -28,9 +28,15 @@ class MainActivity : ComponentActivity() {
 
     // Native method declarations
     external fun helloFromJNI(): String
+    external fun initializeEnvironment()
+    external fun cleanup()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Initialiser l'environnement natif
+        initializeEnvironment()
+        
         setContent {
             MaterialTheme {
                 Surface(
@@ -41,6 +47,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        cleanup()
     }
 }
 
